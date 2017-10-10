@@ -45,7 +45,23 @@ public class FrontCompression {
          * Complete this function.
          */
 
-        return "";
+        String[] splitCorpus = corpus.split("\n");
+        String output = "";
+
+        for (int wordNum = 0; wordNum < splitCorpus.length; wordNum++) {
+            String thisWord = splitCorpus[wordNum];
+            if (wordNum == 0) {
+                output += "0 " + thisWord + "\n";
+                continue;
+            }
+            String lastWord = splitCorpus[wordNum - 1];
+
+            int prefixLength = longestPrefix(thisWord, lastWord);
+
+            output += prefixLength + " " + thisWord.substring(prefixLength) + "\n";
+        }
+
+        return output;
     }
 
     /**
@@ -68,7 +84,28 @@ public class FrontCompression {
          * Complete this function.
          */
 
-        return "";
+        String[] splitCorpus = corpus.split("\n");
+        String output = "";
+        String lastWord = "";
+
+        for (int wordNum = 0; wordNum < splitCorpus.length; wordNum++) {
+            String thisWord = splitCorpus[wordNum];
+            if (wordNum == 0) {
+                output += thisWord.substring(2) + "\n";
+                lastWord = thisWord.substring(2);
+                continue;
+            }
+            int extractedPrefixCount = Integer.parseInt(thisWord
+                    .substring(0, thisWord.indexOf(" ")));
+
+            String willAdd = lastWord.substring(0, extractedPrefixCount) + thisWord
+                    .substring(thisWord.indexOf(" ") + 1) + "\n";
+
+            output += willAdd;
+            lastWord = willAdd;
+        }
+
+        return output;
     }
 
     /**
@@ -82,7 +119,21 @@ public class FrontCompression {
         /*
          * Complete this function.
          */
-        return 0;
+        boolean isSame;
+        int shorterLength = firstString.length();
+        if (firstString.length() > secondString.length()) {
+            shorterLength = secondString.length();
+        }
+        int lengthOfMatch = 0;
+
+        for (int letterNum = 0; letterNum < shorterLength; letterNum++) {
+            isSame = (firstString.charAt(letterNum) == secondString.charAt(letterNum));
+            if (!isSame) {
+                break;
+            }
+            lengthOfMatch++;
+        }
+        return lengthOfMatch;
     }
 
     /**
